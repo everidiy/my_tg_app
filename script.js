@@ -132,7 +132,13 @@ async function loadCardsFromServer() {
 
     try {
         // ИСПРАВЛЕНО: Добавлен слеш перед шаблоном ID
-        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery{userId}`);
+        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery{userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true" // Отключает страницу-заглушку ngrok
+            }
+        });
 
         if (!response.ok) {
             throw new Error(`Ошибка сервера: ${response.status}`);
