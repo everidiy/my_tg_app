@@ -136,7 +136,7 @@ async function loadCardsFromServer() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "ngrok-skip-browser-warning": "true" // Отключает страницу-заглушку ngrok
+                "ngrok-skip-browser-warning": "true" // Отключает заглушку ngrok
             }
         });
 
@@ -154,15 +154,26 @@ async function loadCardsFromServer() {
 
         cards.forEach(card => {
             const cardElement = document.createElement("div");
-            // Защита на случай, если card.Type придет пустым
-            const cardType = card.Type ? card.Type.toLowerCase() : "unknown";
+
+            // ИСПРАВЛЕНО: Безопасное чтение полей как с большой, так и с маленькой буквы (из C#)
+            const cardType = (card.Type || card.type || "unknown").toLowerCase();
+            const cardName = card.Name || card.name || "Без названия";
+            const cardRating = card.Rating || card.rating || 0;
+
+            const photoFileId = card.PhotoFileId || card.photoFileId || "";
+
             cardElement.className = `card card-${cardType}`;
 
+            const imageHtml = photoFileId
+                ? `<img src="https://ngrok-free.dev{photoFileId}" alt="${cardName}" class="can-img" />`
+                : `<div class="card-image-placeholder">🥤</div>`;
+
             cardElement.innerHTML = `
-                <div class="card-image">🥤</div>
+                <div class="card-image">${}</div>
                 <div class="card-info">
-                    <h3>${card.Name || "Без названия"}</h3>
-                    <p>Rating: ${card.Rating || 0}/5</p>
+                    <h3>${cardName}</h3
+                    <p>Type: ${cardType}/10</p>
+                    <p>Rating: ${cardRating}/10</p>
                 </div>
             `;
             grid.appendChild(cardElement);
