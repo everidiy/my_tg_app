@@ -132,7 +132,7 @@ async function loadCardsFromServer() {
 
     try {
         // ИСПРАВЛЕНО: Добавлен слеш перед шаблоном ID
-        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery{userId}`, {
+        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery/${userId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
