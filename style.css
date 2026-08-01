@@ -312,23 +312,38 @@ body::after {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Адаптивность под узкие экраны телефонов */
 @media (max-width: 600px) {
     .app-container {
         flex-direction: column;
     }
     .sidebar {
         width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 20px;
+        flex-direction: column; 
+        gap: 10px;
+        padding: 15px;
         border-right: none;
         border-bottom: 1px solid var(--border);
     }
-    .logo { margin-bottom: 0; font-size: 24px; }
-    .nav-menu { flex-direction: row; gap: 8px; }
-    .nav-btn { padding: 10px 14px; font-size: 14px; border-radius: 12px; }
-    .btn-text { display: none; }
-    .content-area { padding: 20px 15px; }
+    .logo { 
+        margin-bottom: 5px; 
+        font-size: 24px; 
+    }
+    .nav-menu { 
+        flex-direction: row; 
+        gap: 8px; 
+        width: 100%; 
+    }
+    .nav-btn { 
+        flex: 1; 
+        justify-content: center; 
+        padding: 12px 10px; 
+        font-size: 14px; 
+        border-radius: 14px; 
+    }
+    .btn-text { 
+        display: inline-block;
+    }
+    .content-area { 
+        padding: 20px 15px; 
+    }
 }
