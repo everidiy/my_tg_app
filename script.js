@@ -185,13 +185,15 @@ async function loadCardsFromServer() {
         // Строим новые карточки на основе данных из C# + SQLite
         cards.forEach(card => {
             const cardElement = document.createElement("div");
-            cardElement.className = `card card-${card.type}`;
+
+            // Внимание на большую букву в card.Type
+            cardElement.className = `card card-${card.Type.toLowerCase()}`;
 
             cardElement.innerHTML = `
-                <div class="card-image">${card.emoji}</div>
+                <div class="card-image">🥤</div>
                 <div class="card-info">
-                    <h3>${card.title}</h3>
-                    <p>${card.description}</p>
+                    <h3>${card.Name}</h3>
+                    <p>Rating: ${card.Rating}/5</p>
                 </div>
             `;
 
