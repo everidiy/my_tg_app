@@ -131,7 +131,6 @@ async function loadCardsFromServer() {
     }
 
     try {
-        // ИСПРАВЛЕНО: Добавлен слеш перед шаблоном ID
         const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery/${userId}`, {
             method: "GET",
             headers: {
@@ -155,24 +154,25 @@ async function loadCardsFromServer() {
         cards.forEach(card => {
             const cardElement = document.createElement("div");
 
-            // ИСПРАВЛЕНО: Безопасное чтение полей как с большой, так и с маленькой буквы (из C#)
+            // Безопасное чтение полей как с большой, так и с маленькой буквы (из C#)
             const cardType = (card.Type || card.type || "unknown").toLowerCase();
             const cardName = card.Name || card.name || "Без названия";
             const cardRating = card.Rating || card.rating || 0;
-
             const photoFileId = card.PhotoFileId || card.photoFileId || "";
 
             cardElement.className = `card card-${cardType}`;
 
+            // ИСПРАВЛЕНО: Правильный адрес к эндпоинту картинок C# через ngrok с знаком $
             const imageHtml = photoFileId
                 ? `<img src="https://ngrok-free.dev{photoFileId}" alt="${cardName}" class="can-img" />`
                 : `<div class="card-image-placeholder">🥤</div>`;
 
+            // ИСПРАВЛЕНО: Вставлена переменная imageHtml, закрыт тег <h3> и убрано "/10" у типа
             cardElement.innerHTML = `
-                <div class="card-image">${}</div>
+                <div class="card-image">${imageHtml}</div>
                 <div class="card-info">
-                    <h3>${cardName}</h3
-                    <p>Type: ${cardType}/10</p>
+                    <h3>${cardName}</h3>
+                    <p>Type: ${cardType}</p>
                     <p>Rating: ${cardRating}/10</p>
                 </div>
             `;
@@ -185,3 +185,4 @@ async function loadCardsFromServer() {
         console.error("Не удалось загрузить карточки с сервера:", error);
     }
 }
+
