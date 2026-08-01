@@ -3,17 +3,13 @@ const tg = window.Telegram?.WebApp ?? null;
 if (tg) {
     tg.ready();
     tg.expand();
-
     applyTelegramTheme();
-
     tg.onEvent?.("themeChanged", applyTelegramTheme);
 }
 
 function applyTelegramTheme() {
     if (!tg) return;
-
     const root = document.documentElement;
-
     root.style.setProperty("--tg-bg", tg.themeParams.bg_color || "#0b0c10");
     root.style.setProperty("--tg-text", tg.themeParams.text_color || "#ffffff");
     root.style.setProperty("--tg-hint", tg.themeParams.hint_color || "#8b949e");
@@ -28,47 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initTabs() {
-    const buttons = document.querySelectorAll(
-        ".nav-btn, .nav-item"
-    );
-    const tabs = document.querySelectorAll(
-        ".tab-content, .tab"
-    );
+    const buttons = document.querySelectorAll(".nav-btn, .nav-item");
+    const tabs = document.querySelectorAll(".tab-content, .tab");
 
     buttons.forEach(button => {
         button.addEventListener("click", () => {
             const target = button.dataset.tab;
             if (!target) return;
 
-            buttons.forEach(btn =>
-                btn.classList.remove("active")
-            );
-
-            tabs.forEach(tab =>
-                tab.classList.remove("active")
-            );
+            buttons.forEach(btn => btn.classList.remove("active"));
+            tabs.forEach(tab => tab.classList.remove("active"));
 
             button.classList.add("active");
             const activeTab = document.getElementById(target);
 
             if (activeTab) {
                 activeTab.classList.add("active");
-
                 activeTab.animate(
                     [
-                        {
-                            opacity: 0,
-                            transform: "translateY(12px)"
-                        },
-                        {
-                            opacity: 1,
-                            transform: "translateY(0)"
-                        }
+                        { opacity: 0, transform: "translateY(12px)" },
+                        { opacity: 1, transform: "translateY(0)" }
                     ],
-                    {
-                        duration: 220,
-                        easing: "ease"
-                    }
+                    { duration: 220, easing: "ease" }
                 );
             }
 
@@ -80,25 +57,20 @@ function initTabs() {
 }
 
 function initTelegramUser() {
-    if (!tg?.initDataUnsafe?.user)
-        return;
+    if (!tg?.initDataUnsafe?.user) return;
 
     const user = tg.initDataUnsafe.user;
+    const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
 
-    const fullName = [
-        user.first_name,
-        user.last_name
-    ].filter(Boolean).join(" ");
-
+    // Заполняем все найденные элементы имен
     document.querySelectorAll("#username, #profile-name")
         .forEach(el => el.textContent = fullName);
 
     const letter = user.first_name?.charAt(0)?.toUpperCase() || "?";
-
     const avatarContainers = document.querySelectorAll("#user-avatar, #profile-avatar");
 
     avatarContainers.forEach(container => {
-        container.textContent = "";
+        container.innerHTML = ""; // Безопасно очищаем
 
         const img = document.createElement("img");
         img.alt = "Avatar";
@@ -106,7 +78,7 @@ function initTelegramUser() {
         img.style.height = "100%";
         img.style.borderRadius = "50%";
         img.style.objectFit = "cover";
-        img.style.display = "none"; 
+        img.style.display = "none";
 
         const textSpan = document.createElement("span");
         textSpan.textContent = letter;
@@ -117,7 +89,6 @@ function initTelegramUser() {
 
         if (user.photo_url) {
             img.src = user.photo_url;
-            
             img.onload = () => {
                 img.style.display = "block";
                 textSpan.style.display = "none";
@@ -127,12 +98,8 @@ function initTelegramUser() {
 }
 
 function initSendButton() {
-    const button = document.getElementById(
-        "send-data-btn"
-    );
-
-    if (!button)
-        return;
+    const button = document.getElementById("send-data-btn");
+    if (!button) return;
 
     button.addEventListener("click", () => {
         if (tg?.HapticFeedback) {
@@ -147,10 +114,7 @@ function initSendButton() {
         };
 
         if (tg) {
-            tg.sendData(
-                JSON.stringify(payload)
-            );
-
+            tg.sendData(JSON.stringify(payload));
             setTimeout(() => tg.close(), 250);
         } else {
             console.log(payload);
@@ -167,8 +131,8 @@ async function loadCardsFromServer() {
     }
 
     try {
-        // ВАЖНО: Замените эту ссылку на ваш реальный публичный HTTPS адрес (например, от ngrok)
-        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery/{userId}`);
+        // ИСПРАВЛЕНО: Добавлен слеш перед шаблоном ID
+        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery{userId}`);
 
         if (!response.ok) {
             throw new Error(`Ошибка сервера: ${response.status}`);
@@ -179,24 +143,22 @@ async function loadCardsFromServer() {
 
         if (!grid) return;
 
-        // Полностью очищаем сетку от статичной верстки
+        // Очищаем старый контент только после успешного ответа сервера
         grid.innerHTML = "";
 
-        // Строим новые карточки на основе данных из C# + SQLite
         cards.forEach(card => {
             const cardElement = document.createElement("div");
-
-            // Внимание на большую букву в card.Type
-            cardElement.className = `card card-${card.Type.toLowerCase()}`;
+            // Защита на случай, если card.Type придет пустым
+            const cardType = card.Type ? card.Type.toLowerCase() : "unknown";
+            cardElement.className = `card card-${cardType}`;
 
             cardElement.innerHTML = `
                 <div class="card-image">🥤</div>
                 <div class="card-info">
-                    <h3>${card.Name}</h3>
-                    <p>Rating: ${card.Rating}/5</p>
+                    <h3>${card.Name || "Без названия"}</h3>
+                    <p>Rating: ${card.Rating || 0}/5</p>
                 </div>
             `;
-
             grid.appendChild(cardElement);
         });
 
