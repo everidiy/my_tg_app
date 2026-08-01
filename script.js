@@ -168,7 +168,7 @@ async function loadCardsFromServer() {
 
     try {
         // ВАЖНО: Замените эту ссылку на ваш реальный публичный HTTPS адрес (например, от ngrok)
-        const response = await fetch(`https://xn-----ngrok-06gtym4ba8bmsp1q.ru{userId}`);
+        const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery/{userId}`);
 
         if (!response.ok) {
             throw new Error(`Ошибка сервера: ${response.status}`);
