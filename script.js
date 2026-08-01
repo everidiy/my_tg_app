@@ -133,6 +133,7 @@ async function loadCardsFromServer() {
     try {
         const response = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/gallery/${userId}`, {
             method: "GET",
+            cache: "no-store",
             headers: {
                 "Content-Type": "application/json",
                 "ngrok-skip-browser-warning": "true" // Отключает заглушку ngrok
