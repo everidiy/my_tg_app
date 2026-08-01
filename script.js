@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initTabs();
     initTelegramUser();
     initSendButton();
+    loadCardsFromServer();
 });
 
 function initTabs() {
@@ -125,7 +126,6 @@ function initTelegramUser() {
     });
 }
 
-
 function initSendButton() {
     const button = document.getElementById(
         "send-data-btn"
@@ -156,4 +156,51 @@ function initSendButton() {
             console.log(payload);
         }
     });
+}
+
+async function loadCardsFromServer() {
+    const userId = tg?.initDataUnsafe?.user?.id ?? null;
+
+    if (!userId) {
+        console.log("Запущено вне Telegram. Карточки из API не загружены.");
+        return;
+    }
+
+    try {
+        // ВАЖНО: Замените эту ссылку на ваш реальный публичный HTTPS адрес (например, от ngrok)
+        const response = await fetch(`https://xn-----ngrok-06gtym4ba8bmsp1q.ru{userId}`);
+
+        if (!response.ok) {
+            throw new Error(`Ошибка сервера: ${response.status}`);
+        }
+
+        const cards = await response.json();
+        const grid = document.querySelector(".gallery-grid");
+
+        if (!grid) return;
+
+        // Полностью очищаем сетку от статичной верстки
+        grid.innerHTML = "";
+
+        // Строим новые карточки на основе данных из C# + SQLite
+        cards.forEach(card => {
+            const cardElement = document.createElement("div");
+            cardElement.className = `card card-${card.type}`;
+
+            cardElement.innerHTML = `
+                <div class="card-image">${card.emoji}</div>
+                <div class="card-info">
+                    <h3>${card.title}</h3>
+                    <p>${card.description}</p>
+                </div>
+            `;
+
+            grid.appendChild(cardElement);
+        });
+
+        console.log(`Успешно отрисовано карточек: ${cards.length}`);
+
+    } catch (error) {
+        console.error("Не удалось загрузить карточки с сервера:", error);
+    }
 }
