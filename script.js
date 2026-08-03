@@ -123,7 +123,7 @@ function initSendButton() {
 }
 
 async function loadCardsFromServer() {
-    const userId = tg?.initDataUnsafe?.user?.id ?? null;
+    const userId  = 5906060490;
 
     if (!userId) {
         console.log("Запущено вне Telegram. Карточки из API не загружены.");
@@ -163,9 +163,11 @@ async function loadCardsFromServer() {
 
             cardElement.className = `card card-${cardType}`;
 
+            console.log(photoFileId);
+
             // ИСПРАВЛЕНО: Правильный адрес к эндпоинту картинок C# через ngrok с знаком $
             const imageHtml = photoFileId
-                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${photoFileId}?v=${Date.now()}" alt="${cardName}" class="can-img" />`
+                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${encodeURIComponent(photoFileId)}" alt="${cardName}" class="can-img" />`
                 : `<div class="card-image-placeholder">🥤</div>`;
 
             // ИСПРАВЛЕНО: Вставлена переменная imageHtml, закрыт тег <h3> и убрано "/10" у типа
@@ -178,6 +180,8 @@ async function loadCardsFromServer() {
                 </div>
             `;
             grid.appendChild(cardElement);
+            console.log(cardElement.innerHTML);
+            console.log(cardElement.querySelector("img")?.src);
         });
 
         console.log(`Успешно отрисовано карточек: ${cards.length}`);
