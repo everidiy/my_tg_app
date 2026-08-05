@@ -184,7 +184,7 @@ async function loadCardsFromServer() {
 
             // ИСПРАВЛЕНО: Правильный адрес к эндпоинту картинок C# через ngrok с знаком $
             const imageHtml = photoFileId
-                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${encodeURIComponent(photoFileId)}" alt="${cardName}" class="can-img" />`
+                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${encodeURIComponent(photoFileId)}?ngrok-skip-browser-warning=true" alt="${cardName}" class="can-img" />`
                 : `<div class="card-image-placeholder">🥤</div>`;
 
             // ИСПРАВЛЕНО: Вставлена переменная imageHtml, закрыт тег <h3> и убрано "/10" у типа
