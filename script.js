@@ -16,6 +16,22 @@ function applyTelegramTheme() {
     root.style.setProperty("--tg-button", tg.themeParams.button_color || "#39c5bb");
 }
 
+function filterAllCards() {
+    const cards = document.querySelectorAll(".card");
+    const variant = document.querySelector(".variants").value;
+
+    cards.forEach(card => {
+        const type = card.dataset.type;
+
+        if (variant === "all" || type === variant) {
+            card.style.display = "block";
+        }
+        else {
+            card.style.display = "none";
+        }
+    })
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initTabs();
     initTelegramUser();
@@ -162,21 +178,31 @@ async function loadCardsFromServer() {
             const photoFileId = card.PhotoFileId || card.photoFileId || "";
 
             cardElement.className = `card card-${cardType}`;
+            cardElement.dataset.type = cardType;
 
             console.log(photoFileId);
 
             // ИСПРАВЛЕНО: Правильный адрес к эндпоинту картинок C# через ngrok с знаком $
             const imageHtml = photoFileId
-                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/AgACAgIAAxkBAAICampw85Q3ubsONesyLNQTQJeqAAGHmQACqxVrG7hziUvHTmwPPhfAJwEAAwIAA3kAAz0E" alt="${cardName}" class="can-img" />`
+                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${encodeURIComponent(photoFileId)}" alt="${cardName}" class="can-img" />`
                 : `<div class="card-image-placeholder">🥤</div>`;
 
             // ИСПРАВЛЕНО: Вставлена переменная imageHtml, закрыт тег <h3> и убрано "/10" у типа
             cardElement.innerHTML = `
                 <div class="card-image">${imageHtml}</div>
+
                 <div class="card-info">
-                    <h3>${cardName}</h3>
-                    <p>Type: ${cardType}</p>
-                    <p>Rating: ${cardRating}/10</p>
+                    <h3 class="card-name">${cardName}</h3>
+
+                    <div class="card-badges">
+                        <span class="card-type">
+                            ⚡ ${cardType}
+                        </span>
+
+                        <span class="card-rating">
+                            ★ ${cardRating}/10
+                        </span>
+                    </div>
                 </div>
             `;
             grid.appendChild(cardElement);
