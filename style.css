@@ -161,6 +161,56 @@ body::after {
     font-size: 24px;
     margin-bottom: 25px;
     font-weight: 700;
+    margin: 0;
+}
+
+.title_badges {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 15px;
+    height: 50px;
+}
+
+.title_badges select {
+    height: 32px;
+    padding: 0 35px 0 12px;
+
+    background: #111722;
+    color: #fff;
+
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    outline: none;
+
+    transition: .25s ease;
+
+    appearance: none;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #76ff03 50%),
+        linear-gradient(135deg, #76ff03 50%, transparent 50%);
+    background-position:
+        calc(100% - 15px) 13px,
+        calc(100% - 10px) 13px;
+    background-size:
+        5px 5px,
+        5px 5px;
+    background-repeat: no-repeat;
+}
+
+.title_badges select:hover {
+    border-color: #76ff03;
+    box-shadow: 0 0 12px rgba(118,255,3,.25);
+}
+
+.title_badges select:focus {
+    border-color: #76ff03;
 }
 
 /* Исправлены переменные акцентов */
@@ -199,28 +249,65 @@ body::after {
 }
 
 .card-image {
-    height: 140px;
+    height: 240px;
+    width: 100%;
     background-color: rgba(0, 0, 0, .2);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
     overflow: hidden;
 }
 
 .can-img {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    transform: scale(1.25);
     transition: .3s ease;
-}
-
-.card:hover .can-img {
-    transform: scale(1.08);
 }
 
 .card-info {
     padding: 15px;
+}
+
+.card-badges {
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.card-name {
+    text-align: center;
+    height: 50px;
+}
+
+.card-type,
+.card-rating {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.card-type {
+    background: rgba(118, 255, 3, .12);
+    color: #76ff03;
+    border: 1px solid rgba(118, 255, 3, .25);
+}
+
+.card-type::first-letter {
+    color: #b6ff00;
+}
+
+.card-rating {
+    background: rgba(255, 80, 150, .12);
+    color: #ff6fae;
+    border: 1px solid rgba(255, 80, 150, .25);
 }
 
 .card-info h3 {
