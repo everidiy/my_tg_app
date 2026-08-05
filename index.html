@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monster x Miku WebApp</title>
+    <title>Your Monster Collection</title>
     <!-- Официальный скрипт Telegram -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -32,7 +32,17 @@
         <main class="content-area">
             <!-- Вкладка: Галерея -->
             <section id="gallery" class="tab-content active">
-                <h1 class="page-title">Gallery</h1>
+                <div class="title_badges">
+                    <h1 class="page-title">Gallery</h1>
+                    <select class="variants" onchange="filterAllCards()">
+                        <option value="all" selected>All</option>
+                        <option value="ultra">Ultra</option>
+                        <option value="juiced">Juiced</option>
+                        <option value="classic">Classic</option>
+                        <option value="nitro">Nitro</option>
+                        <option value="vr46">VR46</option>
+                    </select>
+                </div>
                 <div class="gallery-grid">
                     <!-- Резервная карточка на случай, если сервер лежит -->
                     <div class="card card-monster">
