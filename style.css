@@ -416,35 +416,72 @@ body::after {
     .app-container {
         flex-direction: column;
     }
+
     .sidebar {
         width: 100%;
-        flex-direction: column; 
+        flex-direction: column;
         gap: 10px;
         padding: 15px;
         border-right: none;
         border-bottom: 1px solid var(--border);
     }
-    .logo { 
-        margin-bottom: 5px; 
-        font-size: 24px; 
+
+    .logo {
+        margin-bottom: 5px;
+        font-size: 24px;
     }
-    .nav-menu { 
-        flex-direction: row; 
-        gap: 8px; 
-        width: 100%; 
+
+    .nav-menu {
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
     }
-    .nav-btn { 
-        flex: 1; 
-        justify-content: center; 
-        padding: 12px 10px; 
-        font-size: 14px; 
-        border-radius: 14px; 
+
+    .nav-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 12px 10px;
+        font-size: 14px;
+        border-radius: 14px;
     }
-    .btn-text { 
+
+    .btn-text {
         display: inline-block;
     }
-    .content-area { 
-        padding: 20px 15px; 
+
+    .content-area {
+        padding: 20px 15px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .card {
+        width: auto;
+        margin: 0;
+    }
+
+    .card-image {
+        height: 240px;
+        overflow: hidden;
+    }
+
+    .can-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .card-name {
+        font-size: 14px;
+        height: auto;
+    }
+
+    .card-badges {
+        justify-content: center;
+        gap: 6px;
     }
 }
 
