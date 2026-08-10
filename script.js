@@ -244,8 +244,6 @@ async function loadCardsFromServer() {
 
         console.log(`Успешно отрисовано карточек: ${cards.length}`);
 
-        countCans();
-
     } catch (error) {
         console.error("Не удалось загрузить карточки с сервера:", error);
     }
