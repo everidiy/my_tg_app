@@ -16,6 +16,38 @@ function applyTelegramTheme() {
     root.style.setProperty("--tg-button", tg.themeParams.button_color || "#39c5bb");
 }
 
+function countCans() {
+    var numsOfCansElements = document.querySelectorAll(".nums-of-cans");
+    var cards = document.querySelectorAll(".card").length;
+
+    numsOfCansElements.forEach(el => el.textContent = cards);
+
+    var avgRating = document.getElementById("avg-rating");
+    var rating = document.querySelectorAll(".card-rating");
+
+    var totalRating = 0;
+    var count = rating.length;
+
+    if (count > 0) {
+        rating.forEach(item => {
+            var match = item.textContent.match(/[\d.]+/);
+            var ratingValue = match ? parseFloat(match[0]) : 0;
+
+            totalRating += ratingValue;
+        });
+
+        var finalAvg = totalRating / count;
+        if (avgRating) {
+            avgRating.textContent = finalAvg.toFixed(1);
+        }
+    } else {
+        if (avgRating) {
+            avgRating.textContent = "0.0";
+        }
+    }
+}
+
+
 function filterAllCards() {
     const cards = document.querySelectorAll(".card");
     const variant = document.querySelector(".variants").value;
@@ -138,18 +170,6 @@ function initSendButton() {
     });
 }
 
-async function loadImage(imgEl, fileId) {
-    try {
-        const res = await fetch(`https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${encodeURIComponent(fileId)}`, {
-            headers: { "ngrok-skip-browser-warning": "true" }
-        });
-        const blob = await res.blob();
-        imgEl.src = URL.createObjectURL(blob);
-    } catch (e) {
-        console.error("image load failed", e);
-    }
-}
-
 async function loadCardsFromServer() {
     const userId  = 5906060490;
 
@@ -196,7 +216,7 @@ async function loadCardsFromServer() {
 
             // ИСПРАВЛЕНО: Правильный адрес к эндпоинту картинок C# через ngrok с знаком $
             const imageHtml = photoFileId
-                ? `<img alt="${cardName}" class="can-img" />`
+                ? `<img src="https://tweezers-glorious-slimness.ngrok-free.dev/api/image/${encodeURIComponent(photoFileId)}?ngrok-skip-browser-warning=true" alt="${cardName}" class="can-img" />`
                 : `<div class="card-image-placeholder">🥤</div>`;
 
             // ИСПРАВЛЕНО: Вставлена переменная imageHtml, закрыт тег <h3> и убрано "/10" у типа
@@ -218,17 +238,13 @@ async function loadCardsFromServer() {
                 </div>
             `;
             grid.appendChild(cardElement);
-
-            if (photoFileId) {
-                const imgEl = cardElement.querySelector("img");
-                if (imgEl) loadImage(imgEl, photoFileId);
-            }
-            
             console.log(cardElement.innerHTML);
             console.log(cardElement.querySelector("img")?.src);
         });
 
         console.log(`Успешно отрисовано карточек: ${cards.length}`);
+
+        countCans();
 
     } catch (error) {
         console.error("Не удалось загрузить карточки с сервера:", error);
