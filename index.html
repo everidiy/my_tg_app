@@ -59,15 +59,29 @@
                 <h1 class="page-title">Profile</h1>
                 <div class="profile-container">
                     <div class="avatar-block">
-                        <!-- Добавлен id="profile-avatar" для синхронизации со скриптом -->
+                        <!-- Синхронизировано со скриптом -->
                         <div class="avatar" id="profile-avatar">
                             <span>?</span>
                         </div>
-                        <!-- Добавлен id="profile-name" -->
                         <h2 id="profile-name">Telegram User</h2>
+                    </div>
+
+                    <!-- НОВЫЙ БЛОК: Статистика пользователя -->
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total cans</span>
+                            <!-- Класс nums-of-cans связан с вашей функцией countCans() -->
+                            <span class="stat-value nums-of-cans">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Average rating</span>
+                            <!-- Новый id для вывода среднего рейтинга -->
+                            <span class="stat-value" id="avg-rating">0.0</span>
+                        </div>
                     </div>
                 </div>
             </section>
+
         </main>
     </div>
 </body>
