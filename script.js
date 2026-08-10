@@ -183,7 +183,8 @@ async function loadImage(imgEl, fileId) {
 }
 
 async function loadCardsFromServer() {
-    const userId  = 5906060490;
+    const user = tg?.initDataUnsafe.user;
+    const userId = user?.id;
 
     if (!userId) {
         console.log("Запущено вне Telegram. Карточки из API не загружены.");
