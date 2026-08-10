@@ -405,6 +405,84 @@ body::after {
     box-shadow: 0 18px 50px rgba(57, 197, 187, .35);
 }
 
+/* СЕТКА СТАТИСТИКИ (Два новых поля отцентрованы) */
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 360px;
+    margin: 12px auto 0 auto; /* Выравнивает сам блок по центру контейнера */
+    justify-items: center; /* Выравнивает содержимое колонок по центру */
+}
+
+/* Карточка отдельного показателя */
+.stat-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирует текст внутри карточки по горизонтали */
+    justify-content: center; /* Центрирует текст внутри карточки по вертикали */
+    gap: 8px;
+    width: 100%; /* Заполняет свою половину сетки */
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.1s ease;
+}
+
+    /* Эффект нажатия в WebApp */
+    .stat-item:active {
+        transform: scale(0.97);
+    }
+
+    /* Декоративная неоновая линия сверху */
+    .stat-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--tg-button, #39c5bb);
+        opacity: 0.8;
+    }
+
+/* Подпись (Всего банок / Средний рейтинг) */
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--tg-hint, #8b949e);
+    font-weight: 600;
+    text-align: center; /* Центрирует текст подписи, если он длинный */
+}
+
+/* Числовое значение */
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-family: monospace;
+    text-align: center; /* Центрирует цифры */
+}
+
+/* Персональный цвет для счетчика банок */
+.nums-of-cans {
+    color: var(--tg-button, #39c5bb);
+    text-shadow: 0 0 10px rgba(57, 197, 187, 0.3);
+}
+
+/* Персональный цвет для среднего рейтинга */
+#avg-rating {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+
+
 /* Анимация плавного переключения */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
